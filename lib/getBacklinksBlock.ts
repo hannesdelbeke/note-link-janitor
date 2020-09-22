@@ -4,7 +4,7 @@ import * as is from "unist-util-is";
 
 // Hacky type predicate here.
 function isClosingMatterNode(node: UNIST.Node): node is UNIST.Node {
-  return "value" in node && (node as MDAST.HTML).value.startsWith("<!--");
+  return "value" in node && (node as MDAST.HTML).value.startsWith("<!-- {BearID");
 }
 
 export default function getBacklinksBlock(

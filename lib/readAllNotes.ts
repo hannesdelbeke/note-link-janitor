@@ -42,15 +42,32 @@ async function readNote(notePath: string): Promise<Note> {
 export default async function readAllNotes(
   noteFolderPath: string
 ): Promise<{ [key: string]: Note }> {
+
+  const deepNotePaths = await readDirectory(noteFolderPath);
+
+  const noteEntries = await Promise.all(
+    deepNotePaths.map(async notePath => [notePath, await readNote(notePath)])
+  );
+
+  return Object.fromEntries(noteEntries);
+}
+
+async function readDirectory(noteFolderPath: string): Promise<string[]> {
   const noteDirectoryEntries = await fs.promises.readdir(noteFolderPath, {
     withFileTypes: true
   });
-  const notePaths = noteDirectoryEntries
+
+  let notePaths = noteDirectoryEntries
     .filter(entry => entry.isFile() && !entry.name.startsWith(".") && entry.name.endsWith(".md"))
     .map(entry => path.join(noteFolderPath, entry.name));
 
-  const noteEntries = await Promise.all(
-    notePaths.map(async notePath => [notePath, await readNote(notePath)])
-  );
-  return Object.fromEntries(noteEntries);
+  const directoryPaths = noteDirectoryEntries
+    .filter(entry => entry.isDirectory() && !entry.name.startsWith("."))
+    .map(entry => path.join(noteFolderPath, entry.name));
+
+  for (const subPath of directoryPaths) {
+    notePaths = notePaths.concat(await readDirectory(subPath));
+  }
+
+  return notePaths;
 }

@@ -54,7 +54,8 @@ import updateBacklinks from "./lib/updateBacklinks";
       );
       if (newContents !== notes[notePath].noteContents) {
         await fs.promises.writeFile(
-          path.join(baseNotePath, path.basename(notePath)),
+          // path.join(baseNotePath, path.basename(notePath)),
+          notePath,
           newContents,
           { encoding: "utf-8" }
         );
