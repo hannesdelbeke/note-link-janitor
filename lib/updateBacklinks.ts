@@ -2,7 +2,7 @@ import * as MDAST from "mdast";
 import * as UNIST from "unist";
 import * as is from "unist-util-is";
 
-import getBacklinksBlock from "./getBacklinksBlock";
+import getBlock from "./getBacklinksBlock";
 import processor from "./processor";
 
 export interface BacklinkEntry {
@@ -18,7 +18,7 @@ export default function updateBacklinks(
   let insertionOffset: number;
   let oldEndOffset: number = -1;
 
-  const backlinksInfo = getBacklinksBlock(tree);
+  const backlinksInfo = getBlock(tree, "Backlinks");
   if (backlinksInfo.isPresent) {
     insertionOffset = backlinksInfo.start.position!.start.offset!;
     oldEndOffset = backlinksInfo.until
