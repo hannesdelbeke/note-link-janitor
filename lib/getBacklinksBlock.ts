@@ -4,11 +4,12 @@ import * as is from "unist-util-is";
 
 // Hacky type predicate here.
 function isClosingMatterNode(node: UNIST.Node): node is UNIST.Node {
-  return "value" in node && (node as MDAST.HTML).value.startsWith("<!--");
+  return "value" in node && (node as MDAST.HTML).value.startsWith("<!-- {BearID");
 }
 
-export default function getBacklinksBlock(
-  tree: MDAST.Root
+export default function getBlock(
+  tree: MDAST.Root,
+  blockToExclude: string
 ):
   | {
       isPresent: true;
@@ -24,7 +25,7 @@ export default function getBacklinksBlock(
       is(node, {
         type: "heading",
         depth: 2
-      }) && is((node as MDAST.Heading).children[0], { value: "Backlinks" })
+      }) && is((node as MDAST.Heading).children[0], { value: blockToExclude })
   );
   if (existingBacklinksNodeIndex === -1) {
     const insertionPoint =
