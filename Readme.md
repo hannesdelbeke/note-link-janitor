@@ -1,5 +1,10 @@
 # note-link-janitor
 
+**This is a fork of Andy's orginal script, with a quick fix to try to make it to work with Roam backups - I use the page names as titles, and also add processing of #tags and #[[tag words]]. It's quick and dirty, and can probably be improved.**
+
+**[Quick video](https://www.youtube.com/watch?v=DJtCoV4lF-A)**
+
+
 This script reads in a folder of Markdown files, notes all the [[wiki-style links]] between them, then adds a special "backlinks" section which lists passages which reference a given file.
 
 For example, this text might get added to `Sample note.md`:

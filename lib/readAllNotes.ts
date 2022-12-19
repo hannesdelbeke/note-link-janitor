@@ -24,17 +24,28 @@ async function readNote(notePath: string): Promise<Note> {
     encoding: "utf-8"
   });
 
-  const parseTree = processor.parse(noteContents) as MDAST.Root;
+  const parseTree = processor.parse(
+    noteContents.replace(/#([\w|-]+)/g, "[[$1]]").replace("#[[", "[[")
+  ) as MDAST.Root;
+  console.log(
+    noteContents.replace(/#([\w|-]+)/g, "[[$1]]").replace("#[[", "[[")
+  );
+  
   const headingNode = await headingFinder.run(parseTree);
-  if (headingNode.type === "missingTitle") {
-    throw new Error(`${notePath} has no title`);
-  }
-  const title = remark()
-    .stringify({
-      type: "root",
-      children: (headingNode as MDAST.Heading).children
-    })
-    .trimEnd();
+  // let title;
+  // if (headingNode.type === "missingTitle") {
+  const title = notePath
+    .split("/")
+    .slice(-1)[0]
+    .split(".")[0];
+  // } else {
+  //   console.log(headingNode);
+  //   title = remark()
+  //     .stringify({
+  //       type: "root",
+  //       children: (headingNode as MDAST.Heading).children
+  //     })
+  //     .trimEnd();
 
   return { title, links: getNoteLinks(parseTree), parseTree, noteContents };
 }
