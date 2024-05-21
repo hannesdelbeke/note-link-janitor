@@ -38,7 +38,7 @@ This is FYI-style open source. I'm sharing it for interested parties, but withou
 To install a published release, run:
 
 ```
-yarn global add @andymatuschak/note-link-janitor
+yarn global add @hannesdelbeke/note-link-janitor
 ```
 
 Then to run it (note that it will modify your `.md` files _in-place_; you may want to make a backup!):
@@ -64,6 +64,3 @@ yarn run build
 
 In the future, I intend to expand this project to monitor for broken links, orphans, and other interesting hypertext-y predicates.
 
----
-
-Arthur Perret [has localized this tool into French](https://github.com/infologie/note-link-janitor-fr).
